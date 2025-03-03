@@ -22,7 +22,7 @@
             max-width: 600px;
             margin-bottom: 20px;
         }
-        .program-item {
+        .program-item, .back-button {
             font-size: 20px;
             font-weight: bold;
             background-color: #ff0055;
@@ -31,8 +31,11 @@
             margin: 10px;
             cursor: pointer;
             transition: background 0.3s;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
         }
-        .program-item:hover {
+        .program-item:hover, .back-button:hover {
             background-color: #cc5500;
         }
     </style>
@@ -42,7 +45,8 @@
     <div class="program-item" onclick="openImage('pelado.jpg')">Tremenda Mañana</div>
     <div class="program-item" onclick="openImage('pepe.jpg')">El Ejército de LAM</div>
     <div class="program-item" onclick="openImage('angel.jpg')">Ángel Responde</div>
-    <div class="program-item" onclick="openImage('index.html')">Volver al inicio</div>
+
+    <a href="index.html" class="back-button">Volver al inicio</a>
 
     <script>
         function openImage(image) {
