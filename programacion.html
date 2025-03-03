@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación - Bondi Live</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #2a1aff;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .schedule-img {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        .program-item {
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #ff0055;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .program-item:hover {
+            background-color: #cc5500;
+        }
+    </style>
+</head>
+<body>
+    <img src="prog.jpg" alt="Programación" class="schedule-img">
+    <div class="program-item" onclick="openImage('pelado.jpg')">Tremenda Mañana</div>
+    <div class="program-item" onclick="openImage('pepe.jpg')">El Ejército de LAM</div>
+    <div class="program-item" onclick="openImage('angel.jpg')">Ángel Responde</div>
+    <div class="program-item" onclick="openImage('INDEX.HTML')">Volver al inicio</div>
+
+    <script>
+        function openImage(image) {
+            window.open(image, '_blank');
+        }
+    </script>
+</body>
+</html>
