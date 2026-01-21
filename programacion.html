@@ -1,56 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programación - Bondi Live</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #2a1aff;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .schedule-img {
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
-        }
-        .program-item, .back-button {
-            font-size: 20px;
-            font-weight: bold;
-            background-color: #ff0055;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-decoration: none;
-            color: white;
-            display: inline-block;
-        }
-        .program-item:hover, .back-button:hover {
-            background-color: #cc5500;
-        }
-    </style>
-</head>
-<body>
-    <img src="prog.jpg" alt="Programación" class="schedule-img">
-    <div class="program-item" onclick="openImage('pelado.jpg')">Tremenda Mañana</div>
-    <div class="program-item" onclick="openImage('pepe.jpg')">El Ejército de LAM</div>
-    <div class="program-item" onclick="openImage('angel.jpg')">Ángel Responde</div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación – Bondi Live</title>
 
-    <a href="index.html" class="back-button">Volver al inicio</a>
-    <script>
-        function openImage(image) {
-            window.open(image, '_blank');
-        }
-    </script>
+<style>
+body {
+    margin: 0;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background-color: #2a1aff;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 800px;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.time {
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 6px 0 8px;
+}
+
+.hosts {
+    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 6px 10px;
+    border-radius: 10px;
+    display: inline-block;
+    line-height: 1.4;
+}
+
+
+.back {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 12px 26px;
+    background: #ff0055;
+    border-radius: 999px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform .2s, background .2s;
+}
+
+.back:hover {
+    transform: scale(1.05);
+    background: #ff3377;
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+    .title {
+        font-size: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <h1>📺 Programación</h1>
+
+    <div class="schedule">
+
+        <div class="card">
+            <div class="time">🕙 10:00 a 12:00</div>
+            <div class="title">EL EJÉRCITO DE LA MAÑANA</div>
+            <div class="hosts">Pepe Ochoa · Fefe Bongiorno · Santiago Riva Roy</div>
+        </div>
+
+        <div class="card">
+            <div class="time">🕛 12:00 a 14:00</div>
+            <div class="title">ANGEL RESPONDE</div>
+            <div class="hosts">Ángel de Brito · Mariana Brey · Popochi · Romina Scalora · Sabrina Rojas</div>
+        </div>
+
+        <div class="card">
+            <div class="time">🕑 14:00 a 15:30</div>
+            <div class="title">STORYTIME</div>
+            <div class="hosts">Denise Dumas · Caro Molinari · Ale Maglietti</div>
+        </div>
+
+        <div class="card">
+            <div class="time">🕞 15:30 a 16:30</div>
+            <div class="title">LA LINTERNA</div>
+            <div class="hosts">Laura Ubfal · Flor Cabrera · Agustín Rey</div>
+        </div>
+
+    </div>
+
+    <a href="index.html" class="back">⬅ Volver al inicio</a>
+</div>
+
 </body>
 </html>
