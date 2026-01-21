@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Qué conductor de Bondi sos?</title>
+
+<style>
+:root {
+  --violeta: #2a1aff;
+  --rosa: #ff008c;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #6a5cff, var(--violeta));
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: white;
+  width: 95%;
+  max-width: 650px;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+  text-align: center;
+}
+
+h1 {
+  color: var(--violeta);
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 10px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--violeta), var(--rosa));
+  transition: width .4s ease;
+}
+
+.question {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.answers button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: #f1ebff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all .2s;
+}
+
+.answers button:hover {
+  background: var(--rosa);
+  color: white;
+  transform: scale(1.02);
+}
+
+.btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-play {
+  background: var(--rosa);
+  color: white;
+}
+
+.btn-home {
+  background: transparent;
+  border: 2px solid var(--violeta);
+  color: var(--violeta);
+}
+
+#result {
+  display: none;
+}
+
+.result-name {
+  font-size: 2rem;
+  color: var(--violeta);
+  margin: 15px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="quiz">
+  <h1>¿Qué conductor de Bondi sos?</h1>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="question" id="question"></div>
+  <div class="answers" id="answers"></div>
+
+  <button class="btn btn-home" onclick="goHome()">Volver al inicio</button>
+</div>
+
+<div class="container" id="result">
+  <h1>Tu resultado es:</h1>
+  <div class="result-name" id="resultName"></div>
+  <p id="resultDesc"></p>
+
+  <button class="btn btn-play" onclick="restart()">Volver a jugar</button>
+  <button class="btn btn-home" onclick="goHome()">Volver al inicio</button>
+</div>
+
+<script>
+const baseQuestions = [
+  { q:"¿Cómo arrancás el día?", a:[
+    {t:"Con todo", c:"Ángel de Brito"},
+    {t:"Tranquilo pero atento", c:"Pepe Ochoa"},
+    {t:"Con info", c:"Laura Ubfal"},
+    {t:"Buena onda", c:"Denise Dumas"}
+  ]},
+  { q:"En un grupo sos…", a:[
+    {t:"El líder", c:"Ángel de Brito"},
+    {t:"El que observa", c:"Agustín Rey"},
+    {t:"El que opina", c:"Mariana Brey"},
+    {t:"El carisma", c:"Sabrina Rojas"}
+  ]},
+  { q:"Tu fuerte principal:", a:[
+    {t:"Información", c:"Fefe Bongiorno"},
+    {t:"Intuición", c:"Romina Scalora"},
+    {t:"Espontaneidad", c:"Caro Molinari"},
+    {t:"Ironía", c:"Popochi"}
+  ]},
+  { q:"Si hay quilombo…", a:[
+    {t:"Investigás", c:"Agustín Rey"},
+    {t:"Lo contás gracioso", c:"Flor Cabrera"},
+    {t:"Analizás", c:"Santiago Riva Roy"},
+    {t:"Vas de frente", c:"Ángel de Brito"}
+  ]},
+  { q:"Te describen como:", a:[
+    {t:"Elegante", c:"Ale Maglietti"},
+    {t:"Cálido", c:"Denise Dumas"},
+    {t:"Directo", c:"Pepe Ochoa"},
+    {t:"Filoso", c:"Laura Ubfal"}
+  ]},
+  { q:"Tu vibe es:", a:[
+    {t:"Picante", c:"Popochi"},
+    {t:"Reflexiva", c:"Santiago Riva Roy"},
+    {t:"Firme", c:"Mariana Brey"},
+    {t:"Divertida", c:"Flor Cabrera"}
+  ]},
+  { q:"En Bondi sos más:", a:[
+    {t:"Conductor", c:"Ángel de Brito"},
+    {t:"Panelista", c:"Romina Scalora"},
+    {t:"Moderador", c:"Pepe Ochoa"},
+    {t:"Data dura", c:"Fefe Bongiorno"}
+  ]},
+  { q:"Ante críticas…", a:[
+    {t:"Las enfrento", c:"Mariana Brey"},
+    {t:"Las ignoro", c:"Sabrina Rojas"},
+    {t:"Las analizo", c:"Agustín Rey"},
+    {t:"Me río", c:"Caro Molinari"}
+  ]},
+  { q:"¿Qué rol preferís?", a:[
+    {t:"Informar", c:"Fefe Bongiorno"},
+    {t:"Debatir", c:"Ángel de Brito"},
+    {t:"Acompañar", c:"Denise Dumas"},
+    {t:"Show", c:"Flor Cabrera"}
+  ]},
+  { q:"Te dicen que sos:", a:[
+    {t:"Elegante", c:"Ale Maglietti"},
+    {t:"Cálido", c:"Denise Dumas"},
+    {t:"Serio", c:"Laura Ubfal"},
+    {t:"Picante", c:"Popochi"}
+  ]}
+];
+
+const descriptions = {
+  "Ángel de Brito":"🔥 Directo, líder y sin filtro.",
+  "Pepe Ochoa":"🎯 Equilibrio y claridad.",
+  "Fefe Bongiorno":"🧠 Información pura.",
+  "Santiago Riva Roy":"🤓 Análisis y profundidad.",
+  "Mariana Brey":"💥 Opinión firme.",
+  "Popochi":"😈 Picante total.",
+  "Romina Scalora":"💬 Intuición y panel.",
+  "Sabrina Rojas":"✨ Natural y cercana.",
+  "Denise Dumas":"☀️ Calidez absoluta.",
+  "Caro Molinari":"💃 Fresca y espontánea.",
+  "Ale Maglietti":"💎 Elegancia.",
+  "Laura Ubfal":"👀 Info y experiencia.",
+  "Flor Cabrera":"🎉 Energía pura.",
+  "Agustín Rey":"🕵️ Investigación."
+};
+
+let questions, current, score;
+
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+function start() {
+  questions = shuffle([...baseQuestions]);
+  current = 0;
+  score = {};
+  document.getElementById("quiz").style.display = "block";
+  document.getElementById("result").style.display = "none";
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[current];
+  document.getElementById("question").innerText = q.q;
+  document.getElementById("progressBar").style.width =
+    (current / questions.length) * 100 + "%";
+
+  const answers = document.getElementById("answers");
+  answers.innerHTML = "";
+
+  shuffle([...q.a]).forEach(ans => {
+    const b = document.createElement("button");
+    b.innerText = ans.t;
+    b.onclick = () => {
+      score[ans.c] = (score[ans.c] || 0) + 1;
+      current++;
+      current < questions.length ? showQuestion() : showResult();
+    };
+    answers.appendChild(b);
+  });
+}
+
+function showResult() {
+  document.getElementById("quiz").style.display = "none";
+  document.getElementById("result").style.display = "block";
+  document.getElementById("progressBar").style.width = "100%";
+
+  const winner = Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
+  document.getElementById("resultName").innerText = winner;
+  document.getElementById("resultDesc").innerText = descriptions[winner];
+}
+
+function restart() {
+  start();
+}
+
+function goHome() {
+  window.location.href = "index.html";
+}
+
+start();
+</script>
+
+</body>
+</html>
